@@ -12,13 +12,13 @@ import { ConditionGroup, ConditionType, ConditionOperator, DataItem } from '@/pa
 import applyFilter from '@/pages/ConditionBuilder/utils/applyFilter';
 
 
-interface FilterProps {
+interface IFilterProps {
   data: DataItem[],
-  tableHeader: any[],
+  tableHeader: string[],
   updateFilteredData: (data: any[]) => void
 }
 
-const Filter: React.FC<FilterProps> = ({ data, updateFilteredData, tableHeader }) => {
+const Filter: React.FC<IFilterProps> = ({ data, updateFilteredData, tableHeader }) => {
   const [conditionLists, setConditionLists] = useState<ConditionGroup[]>([{
     id: uuidv4(),
     type: ConditionType.AND,

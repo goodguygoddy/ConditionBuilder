@@ -11,7 +11,7 @@ import TableLoadingSkeleton from '@/components/ui/TableLoadingSkeleton';
 interface IResultDataTableProps {
   data: Array<any>;
   header: Array<string>;
-  loading: Boolean;
+  loading: boolean;
   totalCount: number;
   filteredCount: number;
 }

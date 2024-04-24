@@ -1,20 +1,19 @@
 import React from 'react';
 
 import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
 import Box from '@mui/material/Box';
 
 import OrCondition from './OrCondition';
 import { ConditionOperator, ConditionType, Condition, ConditionGroup } from '@/pages/ConditionBuilder/types';
 import { v4 as uuidv4 } from 'uuid';
 
-interface AndConditionProps {
+interface IAndConditionProps {
   group: ConditionGroup,
   tableHeader: any[],
   setConditions: (updatedGroup: ConditionGroup) => void
 }
 
-const AndCondition: React.FC<AndConditionProps> = ({ group, tableHeader, setConditions }) => {
+const AndCondition: React.FC<IAndConditionProps> = ({ group, tableHeader, setConditions }) => {
 
   const addCondition = (id: string) => {
     const newCondition: Condition = {
@@ -49,24 +48,20 @@ const AndCondition: React.FC<AndConditionProps> = ({ group, tableHeader, setCond
   };
 
   return (
-    <>
-      <Card variant="outlined">
-        <CardContent>
-          {group.conditions.map((condition: Condition, index: number) => (
-            <Box key={condition.id} sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
-              <OrCondition
-                condition={condition}
-                showOrLabel={index > 0}
-                onAdd={addCondition}
-                tableHeader={tableHeader}
-                onUpdate={(updated: Partial<Condition>) => updateCondition(condition.id, updated)}
-                onRemove={removeCondition}
-              />
-            </Box>
-          ))}
-        </CardContent>
-      </Card>
-    </>
+    <Card variant="outlined">
+      {group.conditions.map((condition: Condition, index: number) => (
+        <Box key={condition.id} sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+          <OrCondition
+            condition={condition}
+            showOrLabel={index > 0}
+            onAdd={addCondition}
+            tableHeader={tableHeader}
+            onUpdate={(updated: Partial<Condition>) => updateCondition(condition.id, updated)}
+            onRemove={removeCondition}
+          />
+        </Box>
+      ))}
+    </Card>
   );
 };
 

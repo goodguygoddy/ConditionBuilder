@@ -5,13 +5,13 @@ import { debounce } from '@mui/material/utils';
 
 import { isValidUrl } from '@/utils/isValidUrl';
 
-interface SearchInputProps {
+interface ISearchUrlProps {
   isLoading?: boolean;
   value: string
   updateSearchURL: (url: string) => void;
 }
 
-const SearchInput: React.FC<SearchInputProps> = ({ value, isLoading = false, updateSearchURL }) => {
+const SearchUrl: React.FC<ISearchUrlProps> = ({ value, isLoading = false, updateSearchURL }) => {
   const [inputValue, setInputValue] = useState<string>(value);
   const [urlError, setUrlError] = useState<boolean>(false);
 
@@ -44,4 +44,4 @@ const SearchInput: React.FC<SearchInputProps> = ({ value, isLoading = false, upd
   );
 }
 
-export default SearchInput;
+export default SearchUrl;

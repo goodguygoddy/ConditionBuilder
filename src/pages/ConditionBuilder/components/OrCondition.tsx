@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
@@ -12,9 +12,11 @@ import { orange } from '@mui/material/colors';
 
 import OrConditionSkeleton from '@/components/ui/OrConditionSkeleton';
 import { ConditionOperator, Condition } from '@/pages/ConditionBuilder/types';
+import isValidNumber from '@/utils/isValidNumber';
+import isValidRegex from '@/utils/isValidRegex';
 
 
-interface OrConditionProps {
+interface IOrConditionProps {
   condition: Condition,
   showOrLabel: boolean,
   tableHeader: any[],
@@ -23,8 +25,43 @@ interface OrConditionProps {
   onAdd: (id: string) => void,
 }
 
-const OrCondition: React.FC<OrConditionProps> = ({ condition, showOrLabel, tableHeader, onUpdate, onRemove, onAdd }) => {
+const OrCondition: React.FC<IOrConditionProps> = ({ condition, showOrLabel, tableHeader, onUpdate, onRemove, onAdd }) => {
   const [isHovering, setIsHovering] = useState<boolean>(false);
+  const [isValidInput, setIsValidInput] = useState<boolean>(true);
+  const [errorMessage, setErrorMessage] = useState<string>('');
+
+  useEffect(() => {
+    validateInput(condition.value, condition.operator);
+  }, [condition.value, condition.operator]);
+
+  const validateInput = (value: string, operator: ConditionOperator) => {
+    let isValid = true;
+    let message = '';
+
+    switch (operator) {
+      case ConditionOperator.GREATER_THAN:
+      case ConditionOperator.LESS_THAN:
+        isValid = isValidNumber(value);
+        message = 'Input must be a number';
+        break;
+      case ConditionOperator.REGEX:
+        isValid = isValidRegex(value);
+        message = 'Input must be a valid regex';
+        break;
+      default:
+        isValid = true;
+        message = '';
+    }
+
+    setIsValidInput(isValid);
+    setErrorMessage(message);
+  };
+
+  const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    onUpdate({ id: condition.id, value: newValue });
+    validateInput(newValue, condition.operator);
+  };
 
   const handleMouseEnter = () => {
     setIsHovering(true);
@@ -54,6 +91,7 @@ const OrCondition: React.FC<OrConditionProps> = ({ condition, showOrLabel, table
             select
             label="Left Condition"
             value={condition.field}
+            helperText={!isValidInput ? ' ' : ''}
             onChange={(e) => onUpdate({ id: condition.id, field: e.target.value })}
           >
             {tableHeader.map((field) => (
@@ -67,6 +105,7 @@ const OrCondition: React.FC<OrConditionProps> = ({ condition, showOrLabel, table
             select
             label="Operator"
             value={condition.operator}
+            helperText={!isValidInput ? ' ' : ''}
             onChange={(e) => onUpdate({ id: condition.id, operator: e.target.value as ConditionOperator })}
           >
             <MenuItem value={ConditionOperator.EQUALS}>Equals</MenuItem>
@@ -82,29 +121,30 @@ const OrCondition: React.FC<OrConditionProps> = ({ condition, showOrLabel, table
             fullWidth
             label="Value"
             value={condition.value}
-            onChange={(e) => onUpdate({ id: condition.id, value: e.target.value })}
+            error={!isValidInput}
+            helperText={!isValidInput ? errorMessage : ''}
+            onChange={handleValueChange}
           />
         </Grid>
-        <Grid item xs={12} sm={1} md={1} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Box sx={{ display: 'flex', flexGrow: 1, justifyContent: 'end', sm: { justifyContent: 'flex-end' } }}>
-            <IconButton
-              color="primary"
-              onClick={() => {
-                setIsHovering(false);
-                onAdd(condition.id);
-              }}
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-            >
-              <AddIcon />
-            </IconButton>
-            <IconButton
-              sx={{ color: orange[700] }}
-              onClick={() => onRemove(condition.id)}
-            >
-              <DeleteIcon />
-            </IconButton>
-          </Box>
+        <Grid item xs={12} sm={1} md={1} sx={{ display: 'flex', justifyContent: 'flex-center', alignItems: 'center' }}>
+          <IconButton
+            sx={{ pb: isValidInput ? 1 : 4 }}
+            color="primary"
+            onClick={() => {
+              setIsHovering(false);
+              onAdd(condition.id);
+            }}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+            <AddIcon />
+          </IconButton>
+          <IconButton
+            sx={{ pb: isValidInput ? 1 : 4, color: orange[700] }}
+            onClick={() => onRemove(condition.id)}
+          >
+            <DeleteIcon />
+          </IconButton>
         </Grid>
       </Grid>
       {isHovering && <OrConditionSkeleton showOrLabel={showOrLabel} />}

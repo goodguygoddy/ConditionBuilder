@@ -26,7 +26,7 @@ const evaluateCondition = (condition: Condition, item: DataItem): boolean => {
                 return true;
         }
     } catch (error) {
-        console.error("Error applying condition", { error, condition });
+        // console.error("Error applying condition", { error, condition });
         return false;
     }
 };
