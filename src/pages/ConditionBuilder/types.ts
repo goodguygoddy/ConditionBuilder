@@ -7,9 +7,14 @@ export enum ConditionOperator {
   REGEX = '\\',
 }
 
-export interface DataItem {
-  [key: string]: any;
+export type DataValue = string | number | DataObject;
+
+export interface DataObject {
+  [key: string]: DataValue;
 }
+
+export interface DataItem extends DataObject {}
+
 
 export enum ConditionType {
   AND = '&&',

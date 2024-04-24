@@ -1,4 +1,4 @@
-import { ConditionGroup, Condition, DataItem, ConditionOperator } from "@/pages/ConditionBuilder/types";
+import { ConditionGroup, Condition, DataItem, ConditionOperator, DataValue } from "@/pages/ConditionBuilder/types";
 
 const evaluateCondition = (condition: Condition, item: DataItem): boolean => {
     if (!condition.field || condition.value === '') {
@@ -31,18 +31,17 @@ const evaluateCondition = (condition: Condition, item: DataItem): boolean => {
     }
 };
 
-const getFieldValue = (item: DataItem, field: string): any => {
-    if (field.includes('.')) {
-        return field.split('.').reduce((o, k) => (o || {})[k], item);
-    }
-    return item[field];
+const getFieldValue = (item: DataItem, field: string): DataValue | undefined => {
+    return field.split('.').reduce((acc: DataValue | undefined, key: string) => {
+        return (typeof acc === "object" && acc !== null && key in acc) ? acc[key] : undefined;
+    }, item as DataValue);
 };
 
-const handleEqualsCondition = (fieldValue: string | number, value: string | number): boolean => {
+const handleEqualsCondition = (fieldValue: DataValue, value: string): boolean => {
     return String(fieldValue).toLowerCase() === String(value).toLowerCase();
 };
 
-const handleComparisonCondition = (fieldValue: string | number, value: string | number, operator: ConditionOperator.GREATER_THAN | ConditionOperator.LESS_THAN): boolean => {
+const handleComparisonCondition = (fieldValue: DataValue, value: string, operator: ConditionOperator.GREATER_THAN | ConditionOperator.LESS_THAN): boolean => {
     const numFieldValue = Number(fieldValue);
     const numValue = Number(value);
     if (isNaN(numFieldValue) || isNaN(numValue)) {
@@ -51,12 +50,12 @@ const handleComparisonCondition = (fieldValue: string | number, value: string | 
     return operator === ConditionOperator.GREATER_THAN ? numFieldValue > numValue : numFieldValue < numValue;
 };
 
-const handleContainsCondition = (fieldValue: any, value: any, isContain: boolean): boolean => {
+const handleContainsCondition = (fieldValue: DataValue, value: string, isContain: boolean): boolean => {
     const result = String(fieldValue).toLowerCase().includes(String(value).toLowerCase());
     return isContain ? result : !result;
 };
 
-const handleRegexCondition = (fieldValue: string | number, value: string): boolean => {
+const handleRegexCondition = (fieldValue: DataValue, value: string): boolean => {
     const stringValue = String(fieldValue);
     const regex = new RegExp(value, 'i');
     return regex.test(stringValue);

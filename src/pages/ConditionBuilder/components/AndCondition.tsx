@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 interface IAndConditionProps {
   group: ConditionGroup,
-  tableHeader: any[],
+  tableHeader: string[],
   setConditions: (updatedGroup: ConditionGroup) => void
 }
 

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import useFetch from "@/hooks/useFetch";
 
 import Typography from '@mui/material/Typography';
@@ -10,9 +10,9 @@ import Filter from "@/pages/ConditionBuilder/components/Filter";
 import ResultDataTable from "@/pages/ConditionBuilder/components/ResultDataTable";
 import { DataItem } from "@/pages/ConditionBuilder/types";
 
-const ConditionBuilder = () => {
+const ConditionBuilder: React.FC = () => {
   const [searchUrl, setSearchUrl] = useState<string>('https://data.nasa.gov/resource/y77d-th95.json');
-  const [tableHeader, setTableHeader] = useState<Array<string>>([]);
+  const [tableHeader, setTableHeader] = useState<string[]>([]);
   const [filteredData, setFilteredData] = useState<DataItem[]>([]);
   const { data, loading } = useFetch(searchUrl);
 
@@ -22,7 +22,7 @@ const ConditionBuilder = () => {
     }
   }, [data]);
 
-  const updateFilteredData = (data: any[]) => {
+  const updateFilteredData = (data: DataItem[]) => {
     setFilteredData(data);
   }
 

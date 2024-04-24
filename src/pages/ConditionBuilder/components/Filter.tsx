@@ -15,7 +15,7 @@ import applyFilter from '@/pages/ConditionBuilder/utils/applyFilter';
 interface IFilterProps {
   data: DataItem[],
   tableHeader: string[],
-  updateFilteredData: (data: any[]) => void
+  updateFilteredData: (data: DataItem[]) => void
 }
 
 const Filter: React.FC<IFilterProps> = ({ data, updateFilteredData, tableHeader }) => {

@@ -1,8 +1,12 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
+interface IDataItem {
+    [key: string]: string | number;
+}
+
 interface IReturnType {
-    data: Array<Record<string, any>>,
+    data: IDataItem[],
     loading: boolean,
     error: Error | null
 }
@@ -13,7 +17,7 @@ interface IReturnType {
  * @returns An object containing the data, loading status, and any error encountered.
  */
 const useFetch = (url: string) : IReturnType => {
-    const [data, setData] = useState<any>([]);
+    const [data, setData] = useState<IDataItem[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<Error | null>(null);
 

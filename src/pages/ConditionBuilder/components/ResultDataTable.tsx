@@ -7,10 +7,11 @@ import Typography from '@mui/material/Typography';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 
 import TableLoadingSkeleton from '@/components/ui/TableLoadingSkeleton';
+import { DataItem } from '@/pages/ConditionBuilder/types';
 
 interface IResultDataTableProps {
-  data: Array<any>;
-  header: Array<string>;
+  data: DataItem[];
+  header: string[];
   loading: boolean;
   totalCount: number;
   filteredCount: number;

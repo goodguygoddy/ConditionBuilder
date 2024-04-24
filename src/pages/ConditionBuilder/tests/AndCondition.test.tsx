@@ -13,7 +13,7 @@ vi.mock('uuid', () => ({
 }));
 
 describe('AndCondition Component Tests', () => {
-  const mockTableHeader = [{ name: 'Column1' }, { name: 'Column2' }];
+  const mockTableHeader = ["Column1", "Column2"];
   const mockSetConditions = vi.fn();
   let mockGroup: ConditionGroup;
 

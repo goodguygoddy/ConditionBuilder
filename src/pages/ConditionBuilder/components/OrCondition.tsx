@@ -19,7 +19,7 @@ import isValidRegex from '@/utils/isValidRegex';
 interface IOrConditionProps {
   condition: Condition,
   showOrLabel: boolean,
-  tableHeader: any[],
+  tableHeader: string[],
   onUpdate: (updatedFields: Partial<Condition>) => void,
   onRemove: (id: string) => void,
   onAdd: (id: string) => void,
