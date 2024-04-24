@@ -6,7 +6,7 @@ import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 
 import SearchUrl from "@/pages/ConditionBuilder/components/SerachUrl";
-import FilterCondition from "@/pages/ConditionBuilder/components/Filter";
+import Filter from "@/pages/ConditionBuilder/components/Filter";
 import ResultDataTable from "@/pages/ConditionBuilder/components/ResultDataTable";
 import { DataItem } from "@/pages/ConditionBuilder/types";
 
@@ -40,7 +40,7 @@ const ConditionBuilder = () => {
           Condition Builder
         </Typography>
         <SearchUrl value={searchUrl} updateSearchURL={setSearchUrl}/>
-        <FilterCondition data={data} updateFilteredData={updateFilteredData} tableHeader={tableHeader} />
+        <Filter data={data} updateFilteredData={updateFilteredData} tableHeader={tableHeader} />
         <ResultDataTable data={filteredData} totalCount={data.length} filteredCount={filteredData.length} header={tableHeader} loading={loading} />
       </Stack>
     </Container>
