@@ -14,7 +14,7 @@ const ConditionBuilder: React.FC = () => {
   const [searchUrl, setSearchUrl] = useState<string>('https://data.nasa.gov/resource/y77d-th95.json');
   const [tableHeader, setTableHeader] = useState<string[]>([]);
   const [filteredData, setFilteredData] = useState<DataItem[]>([]);
-  const { data, loading } = useFetch(searchUrl);
+  const { data, loading, error } = useFetch(searchUrl);
 
   useEffect(() => {
     if (data && Array.isArray(data) && data.length > 0) {
@@ -39,7 +39,7 @@ const ConditionBuilder: React.FC = () => {
         >
           Condition Builder
         </Typography>
-        <SearchUrl value={searchUrl} updateSearchURL={setSearchUrl}/>
+        <SearchUrl value={searchUrl} error={error} isLoading={loading} updateSearchURL={setSearchUrl}/>
         <Filter data={data} updateFilteredData={updateFilteredData} tableHeader={tableHeader} />
         <ResultDataTable data={filteredData} totalCount={data.length} filteredCount={filteredData.length} header={tableHeader} loading={loading} />
       </Stack>

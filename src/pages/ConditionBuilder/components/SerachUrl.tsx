@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import TextField from '@mui/material/TextField';
 import { debounce } from '@mui/material/utils';
@@ -7,24 +7,37 @@ import { isValidUrl } from '@/utils/isValidUrl';
 
 interface ISearchUrlProps {
   isLoading?: boolean;
-  value: string
+  value: string;
+  error: Error | null;
   updateSearchURL: (url: string) => void;
 }
 
-const SearchUrl: React.FC<ISearchUrlProps> = ({ value, isLoading = false, updateSearchURL }) => {
+const SearchUrl: React.FC<ISearchUrlProps> = ({ value, error, isLoading = false, updateSearchURL }) => {
   const [inputValue, setInputValue] = useState<string>(value);
-  const [urlError, setUrlError] = useState<boolean>(false);
+  const [urlError, setUrlError] = useState<string | null>(null);
 
-  const debouncedUpdate = useMemo(() => debounce(updateSearchURL, 400), [updateSearchURL]);
+  const debouncedUpdate = useCallback(debounce((value) => {
+    if (isValidUrl(value)) {
+      setUrlError(null);
+      updateSearchURL(value);
+    } else {
+      setUrlError("Please enter a valid URL.");
+    }
+  }, 1000), []);
 
   useEffect(() => {
-    if (isValidUrl(inputValue)) {
-      setUrlError(false);
-      debouncedUpdate(inputValue);
+    if (error === null) {
+      setUrlError(null);
+      return;
     } else {
-      setUrlError(true);
+      setUrlError(error.message);
     }
-  }, [inputValue, debouncedUpdate]);
+  }, [error])
+
+  useEffect(() => {
+    debouncedUpdate(inputValue);
+  }, [inputValue]);
+
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
@@ -37,8 +50,8 @@ const SearchUrl: React.FC<ISearchUrlProps> = ({ value, isLoading = false, update
       type="url"
       value={inputValue}
       onChange={handleChange}
-      error={urlError}
-      helperText={urlError ? "Please enter a valid URL." : "Insert data url. Returning data MUST be an array json where each element is a key/value pair."}
+      error={urlError !== null}
+      helperText={urlError !== null ? urlError : "Insert data url. Returning data MUST be an array json where each element is a key/value pair."}
       disabled={isLoading}
     />
   );

@@ -8,9 +8,9 @@ import { ConditionOperator, ConditionType, Condition, ConditionGroup } from '@/p
 import { v4 as uuidv4 } from 'uuid';
 
 interface IAndConditionProps {
-  group: ConditionGroup,
-  tableHeader: string[],
-  setConditions: (updatedGroup: ConditionGroup) => void
+  group: ConditionGroup;
+  tableHeader: string[];
+  setConditions: (updatedGroup: ConditionGroup) => void;
 }
 
 const AndCondition: React.FC<IAndConditionProps> = ({ group, tableHeader, setConditions }) => {

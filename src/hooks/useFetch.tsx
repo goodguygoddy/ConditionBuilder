@@ -6,9 +6,9 @@ interface IDataItem {
 }
 
 interface IReturnType {
-    data: IDataItem[],
-    loading: boolean,
-    error: Error | null
+    data: IDataItem[];
+    loading: boolean;
+    error: Error | null;
 }
 
 /**
@@ -28,7 +28,12 @@ const useFetch = (url: string) : IReturnType => {
         const fetchData = async () => {
             try {
                 const response = await axios.get(url);
-                setData(response.data);
+                if (Array.isArray(response.data)) {
+                    setData(response.data);
+                    setError(null);
+                } else {
+                    throw new Error("Data is not in array format.");
+                }
             } catch (err) {
                 setData([]);
                 setError(err as Error);

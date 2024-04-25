@@ -17,12 +17,12 @@ import isValidRegex from '@/utils/isValidRegex';
 
 
 interface IOrConditionProps {
-  condition: Condition,
-  showOrLabel: boolean,
-  tableHeader: string[],
-  onUpdate: (updatedFields: Partial<Condition>) => void,
-  onRemove: (id: string) => void,
-  onAdd: (id: string) => void,
+  condition: Condition;
+  showOrLabel: boolean;
+  tableHeader: string[];
+  onUpdate: (updatedFields: Partial<Condition>) => void;
+  onRemove: (id: string) => void;
+  onAdd: (id: string) => void;
 }
 
 const OrCondition: React.FC<IOrConditionProps> = ({ condition, showOrLabel, tableHeader, onUpdate, onRemove, onAdd }) => {
