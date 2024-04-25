@@ -126,7 +126,7 @@ const OrCondition: React.FC<IOrConditionProps> = ({ condition, showOrLabel, tabl
             onChange={handleValueChange}
           />
         </Grid>
-        <Grid item xs={12} sm={1} md={1} sx={{ display: 'flex', justifyContent: 'flex-center', alignItems: 'center' }}>
+        <Grid item xs={12} sm={1} md={1} sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
           <IconButton
             sx={{ pb: isValidInput ? 1 : 4 }}
             color="primary"

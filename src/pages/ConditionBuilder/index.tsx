@@ -28,7 +28,7 @@ const ConditionBuilder: React.FC = () => {
 
   return (
     <Container
-      maxWidth="lg"
+      maxWidth="xl"
     >
       <Stack spacing={2}>
         <Typography
