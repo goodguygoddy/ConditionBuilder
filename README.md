@@ -4,6 +4,7 @@
 This take-home project is called the **Condition Builder**.
 This tool allows you to load an array of data and layer in _AND_/_OR_ conditions to filter the data.
 
+##### Live Link: https://goodguygoddy.github.io/ConditionBuilder/
 
 ![Condition Builder UI](./images/condition-builder.jpeg)
 
