@@ -11,7 +11,7 @@ import ResultDataTable from "@/pages/ConditionBuilder/components/ResultDataTable
 import { DataItem } from "@/pages/ConditionBuilder/types";
 
 const ConditionBuilder: React.FC = () => {
-  const [searchUrl, setSearchUrl] = useState<string>('https://data.nasa.gov/resource/y77d-th95.json');
+  const [searchUrl, setSearchUrl] = useState<string>('https://dragonball-api.com/api/characters?race=Saiyan&affiliation=Z fighter');
   const [tableHeader, setTableHeader] = useState<string[]>([]);
   const [filteredData, setFilteredData] = useState<DataItem[]>([]);
   const { data, loading, error } = useFetch(searchUrl);
